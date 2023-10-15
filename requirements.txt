@@ -5,6 +5,7 @@ asyncio
 dnspython
 ffmpeg-python
 git+https://github.com/gabrielmaialva33/pytgcalls
+#py-tgcalls==v1.0.0.dev7
 git+https://github.com/yt-dlp/yt-dlp.git
 gitpython
 gpytranslate

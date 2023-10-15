@@ -16,7 +16,7 @@ logging.basicConfig(
 )
 
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
-logging.getLogger("pytgcalls").setLevel(logging.ERROR)
+logging.getLogger("pytgcalls").setLevel(logging.INFO)
 logging.getLogger("youtube_dl").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 logging.getLogger("tgcrypto").setLevel(logging.ERROR)
