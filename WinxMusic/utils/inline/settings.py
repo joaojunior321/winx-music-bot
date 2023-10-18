@@ -39,34 +39,39 @@ def setting_markup(_):
 
 
 def audio_quality_markup(
-        _,
-        low: Union[bool, str] = None,
-        medium: Union[bool, str] = None,
-        high: Union[bool, str] = None,
+    _,
+    LOW: Union[bool, str] = None,
+    MEDIUM: Union[bool, str] = None,
+    HIGH: Union[bool, str] = None,
+    STUDIO: Union[bool, str] = None,
 ):
     buttons = [
         [
             InlineKeyboardButton(
                 text=_["ST_B_8"].format("✅")
-                if low == True
+                if LOW == True
                 else _["ST_B_8"].format(""),
-                callback_data="LQA",
-            )
-        ],
-        [
+                callback_data="LOW",
+            ),
             InlineKeyboardButton(
                 text=_["ST_B_9"].format("✅")
-                if medium == True
+                if MEDIUM == True
                 else _["ST_B_9"].format(""),
-                callback_data="MQA",
+                callback_data="MEDIUM",
             )
         ],
         [
             InlineKeyboardButton(
                 text=_["ST_B_10"].format("✅")
-                if high == True
+                if HIGH == True
                 else _["ST_B_10"].format(""),
-                callback_data="HQA",
+                callback_data="HIGH",
+            ),
+            InlineKeyboardButton(
+                text=_["ST_B_11"].format("✅")
+                if STUDIO == True
+                else _["ST_B_11"].format(""),
+                callback_data="STUDIO",
             )
         ],
         [
