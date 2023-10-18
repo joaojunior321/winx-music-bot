@@ -1,15 +1,5 @@
-#
-# Copyright (C) 2021-present by TeamYukki@Github, < https://github.com/TeamYukki >.
-#
-# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
-# and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
-#
-# All rights reserved.
-#
-
-from YukkiMusic import app
-from YukkiMusic.utils.database import (add_nonadmin_chat,
+from WinxMusic import app
+from WinxMusic.utils.database import (add_nonadmin_chat,
                                        cleanmode_off, cleanmode_on,
                                        commanddelete_off,
                                        commanddelete_on,
@@ -26,13 +16,13 @@ from YukkiMusic.utils.database import (add_nonadmin_chat,
                                        save_video_bitrate,
                                        set_playmode, set_playtype,
                                        suggestion_off, suggestion_on)
-from YukkiMusic.utils.decorators.admins import ActualAdminCB
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.inline.settings import (
+from WinxMusic.utils.decorators.admins import ActualAdminCB
+from WinxMusic.utils.decorators.language import language, languageCB
+from WinxMusic.utils.inline.settings import (
     audio_quality_markup, auth_users_markup,
     cleanmode_settings_markup, playmode_users_markup, setting_markup,
     video_quality_markup)
-from YukkiMusic.utils.inline.start import private_panel
+from WinxMusic.utils.inline.start import private_panel
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
