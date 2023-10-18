@@ -1,5 +1,3 @@
-from youtubesearchpython.__future__ import VideosSearch
-
 import os
 import re
 import textwrap
@@ -8,6 +6,7 @@ import aiofiles
 import aiohttp
 from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
                  ImageFont, ImageOps)
+from youtubesearchpython.__future__ import VideosSearch
 
 from config import YOUTUBE_IMG_URL
 

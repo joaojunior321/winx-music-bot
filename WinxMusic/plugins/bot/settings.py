@@ -1,34 +1,44 @@
+#
+# Copyright (C) 2021-present by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
+#
+
+from YukkiMusic import app
+from YukkiMusic.utils.database import (add_nonadmin_chat,
+                                       cleanmode_off, cleanmode_on,
+                                       commanddelete_off,
+                                       commanddelete_on,
+                                       get_aud_bit_name, get_authuser,
+                                       get_authuser_names,
+                                       get_playmode, get_playtype,
+                                       get_vid_bit_name,
+                                       is_cleanmode_on,
+                                       is_commanddelete_on,
+                                       is_nonadmin_chat,
+                                       is_suggestion,
+                                       remove_nonadmin_chat,
+                                       save_audio_bitrate,
+                                       save_video_bitrate,
+                                       set_playmode, set_playtype,
+                                       suggestion_off, suggestion_on)
+from YukkiMusic.utils.decorators.admins import ActualAdminCB
+from YukkiMusic.utils.decorators.language import language, languageCB
+from YukkiMusic.utils.inline.settings import (
+    audio_quality_markup, auth_users_markup,
+    cleanmode_settings_markup, playmode_users_markup, setting_markup,
+    video_quality_markup)
+from YukkiMusic.utils.inline.start import private_panel
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 
-from WinxMusic import app
-from WinxMusic.utils.database import (add_nonadmin_chat,
-                                      cleanmode_off, cleanmode_on,
-                                      commanddelete_off,
-                                      commanddelete_on,
-                                      get_aud_bit_name, get_authuser,
-                                      get_authuser_names,
-                                      get_playmode, get_playtype,
-                                      get_vid_bit_name,
-                                      is_cleanmode_on,
-                                      is_commanddelete_on,
-                                      is_nonadmin_chat,
-                                      is_suggestion,
-                                      remove_nonadmin_chat,
-                                      save_audio_bitrate,
-                                      save_video_bitrate,
-                                      set_playmode, set_playtype,
-                                      suggestion_off, suggestion_on)
-from WinxMusic.utils.decorators.admins import ActualAdminCB
-from WinxMusic.utils.decorators.language import language, languageCB
-from WinxMusic.utils.inline.settings import (
-    audio_quality_markup, auth_users_markup,
-    cleanmode_settings_markup, playmode_users_markup, setting_markup,
-    video_quality_markup)
-from WinxMusic.utils.inline.start import private_panel
 from config import (BANNED_USERS, CLEANMODE_DELETE_MINS,
                     MUSIC_BOT_NAME, OWNER_ID)
 from strings import get_command
@@ -101,22 +111,30 @@ async def settings_back_markup(
 
 ## Audio and Video Quality
 async def gen_buttons_aud(_, aud):
-    if aud == "High":
-        buttons = audio_quality_markup(_, high=True)
-    elif aud == "Medium":
-        buttons = audio_quality_markup(_, medium=True)
-    elif aud == "Low":
-        buttons = audio_quality_markup(_, low=True)
+    if aud == "STUDIO":
+        buttons = audio_quality_markup(_, STUDIO=True)
+    elif aud == "HIGH":
+        buttons = audio_quality_markup(_, HIGH=True)
+    elif aud == "MEDIUM":
+        buttons = audio_quality_markup(_, MEDIUM=True)
+    elif aud == "LOW":
+        buttons = audio_quality_markup(_, LOW=True)
     return buttons
 
 
 async def gen_buttons_vid(_, aud):
-    if aud == "High":
-        buttons = video_quality_markup(_, high=True)
-    elif aud == "Medium":
-        buttons = video_quality_markup(_, medium=True)
-    elif aud == "Low":
-        buttons = video_quality_markup(_, low=True)
+    if aud == "UHD_4K":
+        buttons = video_quality_markup(_, UHD_4K=True)
+    elif aud == "QHD_2K":
+        buttons = video_quality_markup(_, QHD_2K=True)
+    elif aud == "FHD_1080p":
+        buttons = video_quality_markup(_, FHD_1080p=True)
+    elif aud == "HD_720p":
+        buttons = video_quality_markup(_, HD_720p=True)
+    elif aud == "SD_480p":
+        buttons = video_quality_markup(_, SD_480p=True)
+    elif aud == "SD_360p":
+        buttons = video_quality_markup(_, SD_360p=True)
     return buttons
 
 
@@ -260,7 +278,7 @@ async def without_Admin_rights(client, CallbackQuery, _):
 
 
 @app.on_callback_query(
-    filters.regex(pattern=r"^(LQA|MQA|HQA|LQV|MQV|HQV)$")
+    filters.regex(pattern=r"^(LOW|MEDIUM|HIGH|STUDIO|SD_360p|SD_480p|HD_720p|FHD_1080p|QHD_2K|UHD_4K)$")
     & ~BANNED_USERS
 )
 @ActualAdminCB
@@ -270,32 +288,52 @@ async def aud_vid_cb(client, CallbackQuery, _):
         await CallbackQuery.answer(_["set_cb_6"], show_alert=True)
     except:
         pass
-    if command == "LQA":
-        await save_audio_bitrate(CallbackQuery.message.chat.id, "Low")
-        buttons = audio_quality_markup(_, low=True)
-    if command == "MQA":
+    if command == "LOW":
+        await save_audio_bitrate(CallbackQuery.message.chat.id, "LOW")
+        buttons = audio_quality_markup(_, LOW=True)
+    if command == "MEDIUM":
         await save_audio_bitrate(
-            CallbackQuery.message.chat.id, "Medium"
+            CallbackQuery.message.chat.id, "MEDIUM"
         )
-        buttons = audio_quality_markup(_, medium=True)
-    if command == "HQA":
+        buttons = audio_quality_markup(_, MEDIUM=True)
+    if command == "HIGH":
         await save_audio_bitrate(
-            CallbackQuery.message.chat.id, "High"
+            CallbackQuery.message.chat.id, "HIGH"
         )
-        buttons = audio_quality_markup(_, high=True)
-    if command == "LQV":
-        await save_video_bitrate(CallbackQuery.message.chat.id, "Low")
-        buttons = video_quality_markup(_, low=True)
-    if command == "MQV":
+        buttons = audio_quality_markup(_, HIGH=True)
+    if command == "STUDIO":
+        await save_audio_bitrate(
+            CallbackQuery.message.chat.id, "STUDIO"
+        )
+        buttons = audio_quality_markup(_, STUDIO=True)
+    if command == "SD_360p":
+        await save_video_bitrate(CallbackQuery.message.chat.id, "SD_360p")
+        buttons = video_quality_markup(_, SD_360p=True)
+    if command == "SD_480p":
         await save_video_bitrate(
-            CallbackQuery.message.chat.id, "Medium"
+            CallbackQuery.message.chat.id, "SD_480p"
         )
-        buttons = video_quality_markup(_, medium=True)
-    if command == "HQV":
+        buttons = video_quality_markup(_, SD_480p=True)
+    if command == "HD_720p":
         await save_video_bitrate(
-            CallbackQuery.message.chat.id, "High"
+            CallbackQuery.message.chat.id, "HD_720p"
         )
-        buttons = video_quality_markup(_, high=True)
+        buttons = video_quality_markup(_, HD_720p=True)
+    if command == "FHD_1080p":
+        await save_video_bitrate(
+            CallbackQuery.message.chat.id, "FHD_1080p"
+        )
+        buttons = video_quality_markup(_, FHD_1080p=True)
+    if command == "QHD_2K":
+        await save_video_bitrate(
+            CallbackQuery.message.chat.id, "QHD_2K"
+        )
+        buttons = video_quality_markup(_, QHD_2K=True)
+    if command == "UHD_4K":
+        await save_video_bitrate(
+            CallbackQuery.message.chat.id, "UHD_4K"
+        )
+        buttons = video_quality_markup(_, UHD_4K=True)
     try:
         return await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
